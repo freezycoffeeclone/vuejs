@@ -1,0 +1,38 @@
+{
+  "name": "arla_vue",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.100.0",
+    "axios": "^1.13.1",
+    "bulma": "^1.0.4",
+    "bulma-toast": "^2.4.4",
+    "core-js": "^3.8.3",
+    "dotenv": "^17.3.1",
+    "path": "^0.12.7",
+    "vm-browserify": "^1.1.2",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "assert": "^2.1.0",
+    "baseline-browser-mapping": "^2.10.11",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5"
+  }
+}
