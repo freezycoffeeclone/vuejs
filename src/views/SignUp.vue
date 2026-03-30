@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import { supabase } from '@/supabaseClient';
 import { toast } from 'bulma-toast';
 
@@ -95,8 +95,8 @@ export default {
                 password: this.password,
                 options: {
                     data: {
-                    username: this.username,},
-                emailRedirectTo: 'localhost:8080/login'}
+                    display_name: this.username,},
+                emailRedirectTo: 'http://localhost:8080/login'}
             };
 
             const { data, error } = await supabase.auth.signUp(payload);
@@ -110,7 +110,8 @@ export default {
                     duration: 3000,
                     position: 'top-center'
                 }
-            );  
+            );
+            window.location.href('http://localhost:8080')
             // Make an API call to sign up the user
             // axios.post('/api/v1/users/', payload)
             //     .then(response => {

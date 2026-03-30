@@ -6,9 +6,9 @@
             <div class="column is-8">
                 <form @submit.prevent="submitLogin">
                     <div class="field">
-                        <label class="label">Username</label>
+                        <label class="label">Email</label>
                         <div class="control">
-                            <input class="input" type="text" v-model="username" required>
+                            <input class="input" type="text" v-model="email" required>
                         </div>
                     </div>
 
@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
+import { supabase } from '@/supabaseClient';
 import { toast } from 'bulma-toast';
 
 export default {
@@ -48,9 +49,9 @@ export default {
     data() {
         return {
             // Sign up form data can go here
-            username: '',
+            email: '',
             password: '',
-            errors: []
+            errors: [],
             
         }
     },
@@ -59,22 +60,26 @@ export default {
     },
     methods: {
         async submitLogin() {
-            axios.defaults.headers.common['Authorization'] = '';
-            localStorage.removeItem('token');
+            // axios.defaults.headers.common['Authorization'] = '';
+            // localStorage.removeItem('token');
 
             const payload = {
-                username: this.username,
+                email: this.email,
                 password: this.password
             };
 
-            await axios
-                .post('/api/v1/token/login/', payload)
-                .then(response => {
-                    const token = response.data.auth_token;
-                    this.$store.commit('setToken', token);
-                    axios.defaults.headers.common['Authorization'] = `Token ${token}`;
-                    localStorage.setItem('token', token);
-
+            const {error} = await supabase.auth.signInWithPassword(payload);
+                // .then(response => {
+                //     const token = response.data.auth_token;
+                //     this.$store.commit('setToken', token);
+                //     axios.defaults.headers.common['Authorization'] = `Token ${token}`;
+                //     localStorage.setItem('token', token);
+            if (error) {
+                console.log(error);
+            }
+            else {
+                this.$store.state.isAuthenticated = true;
+            };
                     // persist the route info
                     const toPath = this.$route.query.to || '/cart';
 
@@ -85,16 +90,16 @@ export default {
                         position: 'top-center'
                     });
                     this.$router.push(toPath);
-                })
-                .catch(error => {
-                    if (error.response) {
-                        for (const key in error.response.data) {
-                            this.errors.push(`${key}: ${error.response.data[key]}`);
-                        }
-                    } else {
-                        this.errors.push('An error occurred during login. Please try again.');
-                    }
-                });
+            
+                // .catch(error => {
+                //     if (error.response) {
+                //         for (const key in error.response.data) {
+                //             this.errors.push(`${key}: ${error.response.data[key]}`);
+                //         }
+                //     } else {
+                //         this.errors.push('An error occurred during login. Please try again.');
+                //     }
+                // });
             
 
         }
