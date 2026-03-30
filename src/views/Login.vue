@@ -40,7 +40,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import { supabase } from '@/supabaseClient';
 import { toast } from 'bulma-toast';
 
@@ -60,8 +60,8 @@ export default {
     },
     methods: {
         async submitLogin() {
-            // axios.defaults.headers.common['Authorization'] = '';
-            // localStorage.removeItem('token');
+            axios.defaults.headers.common['Authorization'] = '';
+            localStorage.removeItem('token');
 
             const payload = {
                 email: this.email,
@@ -69,27 +69,33 @@ export default {
             };
 
             const {error} = await supabase.auth.signInWithPassword(payload);
-                // .then(response => {
-                //     const token = response.data.auth_token;
-                //     this.$store.commit('setToken', token);
-                //     axios.defaults.headers.common['Authorization'] = `Token ${token}`;
-                //     localStorage.setItem('token', token);
+            // const {data} = await supabase.auth.getSession()    // .then(response => {
+            // const token = data.session.access_token;
+            // this.$store.commit('setToken', token);
+            // axios.defaults.headers.common['Authorization'] = `Token ${token}`;
+            // localStorage.setItem('token', token);
+
             if (error) {
+                this.errors.push(error);
                 console.log(error);
             }
             else {
-                this.$store.state.isAuthenticated = true;
+            const {data} = await supabase.auth.getSession()
+            const token = data.session.access_token;
+            this.$store.commit('setToken', token);
+            axios.defaults.headers.common['Authorization'] = `Token ${token}`;
+            localStorage.setItem('token', token);
             };
                     // persist the route info
-                    const toPath = this.$route.query.to || '/cart';
+            const toPath = this.$route.query.to || '/';
 
-                    toast({
-                        message: 'Login successful!',
-                        type: 'is-success',
-                        duration: 3000,
-                        position: 'top-center'
-                    });
-                    this.$router.push(toPath);
+            toast({
+                message: 'Login successful!',
+                type: 'is-success',
+                duration: 3000,
+                position: 'top-center'
+            });
+            this.$router.push(toPath);
             
                 // .catch(error => {
                 //     if (error.response) {

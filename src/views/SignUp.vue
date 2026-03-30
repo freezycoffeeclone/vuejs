@@ -107,7 +107,7 @@ export default {
                 {
                     message: "Confirmation email sent! Please check your inbox to verify and complete the registration",
                     type: 'is-success',
-                    duration: 3000,
+                    duration: 5000,
                     position: 'top-center'
                 }
             );

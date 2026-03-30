@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <CartItem v-for="item in cart.items" :key="item.product_id" :initializeItem="item" v-on:removeFromCart="removeFromCart"/>
+                    <CartItem v-for="item in cart.items" :key="item.id" :initializeItem="item" v-on:removeFromCart="removeFromCart"/>
                 </tbody>
 
             </table>
@@ -64,8 +64,11 @@ export default {
     },
     methods: {
         removeFromCart(item) {
-            this.cart.items = this.cart.items.filter(i => i.product.id !== item.product.id);
-            // window.location.reload();
+            this.cart.items = this.cart.items.filter(i => item.product.id !== i.product.id);
+            
+
+            
+            window.location.reload();
         }
     },
     mounted() {
@@ -81,6 +84,7 @@ export default {
         cartTotalPrice() {
             return this.cart.items.reduce((acc, curVal) => {return acc += (curVal.product.price * curVal.quantity)}, 0).toFixed(2);
         },
+        
     },
 }
 
